@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <math.h>
+
+//value per mile is defined below
+#define PER_MILE 0.35
+
+int main (void) {
+ 
+ //variables needed
+ double beggining_odometer, ending_odometer, total_miles, reimbursement;
+ 
+
+ //ask for beggining odometer reading
+ printf("Enter beggining odometer reading: ");
+ scanf("%lf", &beggining_odometer);
+
+ //ask for ending odometer reading
+ printf("Enter ending odometer reading: ");
+ scanf("%lf", &ending_odometer);
+
+ total_miles = ending_odometer - beggining_odometer;
+ 
+ //show total miles traveled
+ printf("You traveled: %0.2f miles", total_miles);
+ 
+ //reimbursement is calculated and presented according to values above
+ 
+ reimbursement = PER_MILE * total_miles;
+ 
+printf("\nAt $0.35 per mile, your reimbursement is $%0.2f.", reimbursement);
+ 
+}
