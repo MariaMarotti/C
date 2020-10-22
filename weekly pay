@@ -1,0 +1,96 @@
+#include <stdio.h>
+
+int main()
+{
+    //variables needed 
+    int pay_code;
+    float weekly_pay, hours_worked, payment, hourly_pay, payment1, items, items_value, payment2;
+    float manager=0, hourly_workers=0, commission_workers=0, pieceworkers=0;
+    
+    //a while loop is needed so that the program keeps running as long as -1 isn't selected.
+    while(pay_code!=-1)
+    {
+     printf("\nWhat is your pay code? (-1 to exit) ");
+     scanf("%d", &pay_code);
+     
+     //using a switch will allow us to create different cases, and those cases are the 
+     //options that we have for payments. So case -1 exits program, case 1 would reflect 
+     //management, case 2 for hourly workers and so on. Since manager, hourly_workers, 
+     //commission_workers, and pieceworkers are floats starting at 0, when adding 
+     //"manager++" we are basically asking the code to count how many times that case
+     //is selected, so when you exit the code we have an overall amount of times each 
+     //payment has been calculated.
+     
+    switch (pay_code)
+    {
+      case -1:
+      printf("Exiting program.\n");
+      break;
+      
+      case 1:
+      printf("\nYou selected manager.");
+      printf("\nWhat is your weekly pay? $");
+      scanf("%f", &weekly_pay);
+      printf("Manager's pay is $%.2f\n", weekly_pay);
+      manager++;
+      break;
+     
+     //case 2 needed an if else statement since we have two different scenarios
+     //within the option for hourly workers. Once we hit 40 hours a week, any 
+     //additional hour will count as 1.5 payment so if user input is <40, then "if" 
+     //statement will calculate payment as hours*pay per hour only, if input is >40
+     //then it falls on the "else" statement and payment should be
+     //(40 initial hours*pay per hour) + (extra hours)* pay per hour*1.5 bonus.
+     
+      case 2:
+      printf("\nYou selected hourly workers.");
+      printf("\nWhat is your hourly pay? $");
+      scanf("%f", &hourly_pay);
+      printf("Total amount of hours worked this week? ");
+      scanf("%f", &hours_worked);
+      if (hours_worked<=40)
+       payment=hours_worked*hourly_pay;
+       else 
+       payment=((40*hourly_pay)+((hours_worked-40)*hourly_pay*1.5));
+      printf("Hourly workers' pay is $%.2f\n", payment);
+      hourly_workers++;
+      break;
+      
+      case 3:
+      printf("\nYou selected comission workers.");
+      printf("\nWhat was your weekly pay? $");
+      scanf("%f", &weekly_pay);
+      payment1=(weekly_pay*0.057)+250;
+      printf("Commision workers' pay is $%.2f\n", payment1);
+      commission_workers++;
+      break;
+      
+      case 4:
+      printf("\nYou selected pieceworkers.");
+      printf("\nAmount of items produced? ");
+      scanf("%f", &items);
+      printf("Value of item produced? $");
+      scanf("%f", &items_value);
+      payment2=(items*items_value);
+      printf("Pieceworkers' pay is $%.2f\n", payment2);
+      pieceworkers++;
+      break;
+      
+      //default is for any pay code that doesn't fall within the options the program has.
+      //It prompts the user to select a code again.
+      default: printf("Invalid code.\n");
+      break;
+      
+     } 
+    }
+    
+    //last part of the code is to print out the count on how many times we calculated
+    //each payment whenever user exits code.
+    
+     printf("\nManagers paid: %.0f", manager);
+     printf("\nHourly workers paid: %.0f", hourly_workers);
+     printf("\nCommission workers paid: %.0f", commission_workers);
+     printf("\nPieceworkers paid: %.0f", pieceworkers);
+
+    return 0;
+}
