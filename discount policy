@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <math.h>
+
+//different discount values and salex tax are defined below.
+#define TEACHER_DISCOUNT 0.10
+#define TEACHER_SUPER_DISCOUNT 0.12
+#define SALES_TAXES 0.05
+
+int main()
+{ 
+    //variables and character needed 
+    char teacher_question;
+    double purchase_total,  first_discount, second_discount, discounted_total1, discounted_total2, nondiscounted_total;
+    
+    //ask for total amount of purchase
+    printf("Enter total amount of purchase:      $");
+    scanf("%lf", &purchase_total);
+    
+    //ask if buyer is a teacher or not, so that there might or might not be a discount
+    printf("Are you a music teacher? Select Y for yes, any other letter for no. ");
+    scanf(" %c", &teacher_question);
+    
+    //first discount is for a total that's below 100 dollars, discount would be 10%
+    first_discount = purchase_total - (purchase_total * TEACHER_DISCOUNT);
+    
+    //first discount is for a total that's above 100 dollars, discount would be 12%
+    second_discount = purchase_total - (purchase_total * TEACHER_SUPER_DISCOUNT);
+    
+    //nondiscounted total is for customers that aren't teachers, so no discount 
+    nondiscounted_total = purchase_total + (purchase_total * SALES_TAXES);
+    
+    //discounted total 1 is the value of a purchase with 10% of discount applied to it
+    discounted_total1 = first_discount + (first_discount * SALES_TAXES);
+    
+    //discounted total 2 is the value of a purchase with 12% of discount applied to it
+    discounted_total2 = second_discount + (second_discount * SALES_TAXES);
+    
+//if and else statements are used to evaluate answer to teacher_question, if Y then 
+//next stop to be evaluated is the total amount. If above 100, then first if statement (inside "main" if 
+//statement) is used. If below 100, then second statement "else" is used. 
+//if answer was not Y, then customer is not a teacher therefore last else statement is 
+//used to calculate total purchase. Printf functions are supposed to create an output in 
+//a receipt format. 
+
+     if (teacher_question=='Y')
+     {
+     if (purchase_total>=100)
+     {
+     printf("\nYour total purchases:          $%.2f", purchase_total);
+     printf("\nTeacher's discount (12%%)       %.2f", purchase_total * TEACHER_SUPER_DISCOUNT);
+     printf("\nDiscounted total:              %.2f", purchase_total - (purchase_total * TEACHER_SUPER_DISCOUNT));
+     printf("\nSales Tax (5%%):                %.2f", second_discount * SALES_TAXES);
+     printf("\nTotal:                         $%.2f", discounted_total2);
+     } 
+     else 
+     {
+     printf("\nYour total purchases:          $%.2f", purchase_total);
+     printf("\nTeacher's discount (10%%)       %.2f", purchase_total * TEACHER_DISCOUNT);
+     printf("\nDiscounted total:              %.2f", purchase_total - (purchase_total * TEACHER_DISCOUNT));
+     printf("\nSales Tax (5%%):                %.2f", first_discount * SALES_TAXES);
+     printf("\nTotal:                         $%.2f", discounted_total1);
+     } 
+     }
+     else 
+     {
+     printf("\nYour total purchases:          $%.2f", purchase_total);
+     printf("\nSales Tax (5%%):                %.2f", purchase_total * SALES_TAXES);
+     printf("\nTotal:                         $%.2f", nondiscounted_total);
+     }
+     
+     return 0;
+
+}
