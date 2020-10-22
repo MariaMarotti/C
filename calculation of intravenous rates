@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+//void function used so that return value is absent.
+void get_problem(int* code){
+    
+//printf functions gets user started and works as a menu
+    printf("\n\nEnter the number of the problem you wish to solve.\n\n");
+    printf("\tGIVEN A MEDICAL ORDER IN \t\tCALCULATE RATE IN\n");
+    printf("(1) mL/hr & tubing drop factor \t\t\tdrops/min\n");
+    printf("(2) 1 L for n hr \t\t\t\tmL/ht\n");
+    printf("(3) mg/kg/hr & concentration in mg/ml \t\tmL/hr\n");
+    printf("(4) units/hr & concentration in units/ml \tmL/hr\n");
+    printf("(5) QUIT\n\n");
+    scanf("%d", code);
+}
+
+//Below are the functions that takes values entered by user and returns
+//as output parameters. Below are all of the functions created for each case 
+//within the switch function inside do-while loop.
+
+float get_rate_drop_factor(float mL_per_hour, float fig_drops_min){
+    return (int)(mL_per_hour * fig_drops_min / 60.f + 0.5f);
+}
+
+float get_kg_rate_conc(float mg_kg_hr, float weight){
+    return (int)(mg_kg_hr * weight);
+}
+
+float get_units_conc(float units_hr, float units_ml){
+    return (int)(units_hr / units_ml);
+}
+
+//each function has its "return" based on the formulas needed, since "return" 
+//is also the output.
+
+float by_weight(float mg_kg_hr, float by_weight){
+    return (int)(mg_kg_hr * by_weight);
+}
+ 
+float by_units(float by_units, float units_ml){
+    return (int)(by_units / units_ml);
+}
+  
+float fig_ml_hr(float hours){
+    return (int)(1000.0 / hours);
+}
+
+int main()
+{
+    //variables needed including constant for loop to keep running as long as user
+    //does not select 5.
+    const int SENTINAL = 5;
+    int code_input;
+    float mL_per_hour, fig_drops_min, hours, liters_per_hour, mg_kg_hr, by_weight, mg_ml, by_units, units_ml;
+    printf("     Intravenous Rate Assistant     \n\n");
+    
+    do{
+        get_problem(&code_input);
+        
+        //switch helps select cases from 1-5 and each case has its own methods that 
+        //prompts user to enter values and then returns output parameters 
+        //based on functions previously declared.
+        
+        switch(code_input){
+            //case 1 uses function get_rate_drop_factor with floats
+            //mL_per_hour and fig_drops_min.
+            case 1:
+            printf("Enter rate in mL/hr: ");
+            scanf("%f", &mL_per_hour);
+            printf("Enter tubing's drop factor (drop/mL): ");
+            scanf("%f", &fig_drops_min);
+            
+            mL_per_hour = get_rate_drop_factor(mL_per_hour, fig_drops_min);
+            printf("The drop rate per minute is %0.2f", mL_per_hour);
+            break;
+            
+            case 2:
+            //case 2 uses function mL_per_hour with floats
+            //hours and fig_ml_hr
+            printf("Enter number of hours: ");
+            scanf("%f", &hours);
+            mL_per_hour = fig_ml_hr(hours);
+            printf("Rate in mL per hour is %.0f ", mL_per_hour);
+            break;
+            
+            
+            case 3:
+            //case 3 uses function get_kg_rate_conc with floats
+            //mg_kg_hr and by_weight to deliver output.
+            printf("Enter rate in mg/kg/hr: ");
+            scanf("%f", &mg_kg_hr);
+            printf("Enter patient weight in kg: ");
+            scanf("%f", &by_weight);
+            printf("Enter concentration in mg//ml: ");
+            scanf("%f", &mg_ml);
+            
+            liters_per_hour = get_kg_rate_conc(mg_kg_hr, by_weight);
+            printf("The rate in L per hour is %0.2f", liters_per_hour);
+            break;
+            
+            case 4:
+            //case 4 uses function mL_per_hour with floats
+            //by_units and units_ml.
+            printf("Enter rate in units/hr: ");
+            scanf("%f", &by_units);
+            printf("Enter concentration in units/mL: ");
+            scanf("%f", &units_ml);
+            
+            mL_per_hour = get_units_conc(by_units, units_ml);
+            printf("The rate in mL per hour is %0.2f", mL_per_hour);
+            break;
+            
+            case 5:
+            //case 5 is used to exit program.
+            printf("Exiting program.");
+            
+            default:
+            break;
+        }
+    } while (code_input != SENTINAL);
+    //since sentinal is equal to 5, code will keep running as long as user's 
+    //input is not 5.
+    return 0;
+ }
