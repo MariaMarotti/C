@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <math.h>
+
+//void function used so that return value is absent.
+void scan_data(int* op, double* num)
+//print function gets user started, if statement is used so that code keeps running 
+//until user selects 6, which then quits program.
+{
+    printf("\nEnter 1 for +, 2 for -, 3 for *, 4 for /, 5 for ^. Enter 6 to quit. ");
+    scanf("%d", op);
+
+    if (*op != 6)
+    printf("Enter a value: ");
+    scanf("%lf", *&num);
+}
+//going into switch loop each case represents an operation such as +, -, / and so on.
+//void function used so that return value is absent again.
+void do_next_op (int op, double num, double*accumulator)
+{
+    switch (op)
+{
+    case 1:
+    *accumulator +=num;
+    printf("+%.1f", num);
+    printf("\nResult so far is %.1f", *accumulator);
+    break;
+    
+    case 2:
+    *accumulator -=num;
+    printf("-%.1f", num);
+    printf("\nResult so far is %.1f", *accumulator);
+    break;
+    
+    case 3:
+    *accumulator *=num;
+    printf("+%.1f", num);
+    printf("\nResult so far is %.1f", *accumulator);
+    break;
+    
+    case 4:
+    *accumulator /=num;
+    printf("/%.1f", num);
+    printf("\nResult so far is %.1f", *accumulator);
+    break;
+    
+    case 5:
+    *accumulator = pow(*accumulator, num);
+    printf("+%.1f", num);
+    printf("\nResult so far is %.1f", *accumulator);
+    break;
+    
+    case 6:
+    printf("Final result is %.1f", *accumulator);
+    break;
+    
+    default:
+    printf("Enter a valid operator.\n");
+    break;
+}
+}
+
+
+int main()
+//operator starts at 0, as well as accumulator. Only accumulator value will be 
+//displayed as final result for when user selects option 6.
+{
+    double num;
+    int op=0;
+    double accumulator = 0;
+    //while loop is used to keep accumulator updated (final result).
+    while (op != 6)
+    {
+    scan_data(&op, &num);
+    do_next_op(op, num, &accumulator);
+    }
+}
