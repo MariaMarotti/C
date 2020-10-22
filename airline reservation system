@@ -1,0 +1,507 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <string.h>
+ 
+//set up structure for the flight and its respectives charachters and integers
+struct Flight {
+
+char number[20], departure[20], destination [20], departuredatentime[40], arrivaldatentime[40];
+
+int firstavailable, firstsold, coachavailable, coachsold;
+
+};
+
+struct Flight create(){
+
+    struct Flight f;
+    
+    //print and scan functions for the main "menu" 
+
+    printf("Enter the flight details: ");
+    
+    printf("\nFlight Number: ");
+    scanf("%[^\n]%*c",f.number);
+
+    printf("City of departure: ");
+    scanf("%[^\n]%*c",f.departure);
+
+    printf("Destination: ");
+    scanf("%[^\n]%*c",f.destination);
+
+    printf("Date and time of departure: ");
+    scanf("%[^\n]%*c",f.departuredatentime);
+
+    printf("Date and time of arrival: ");
+    scanf("%[^\n]%*c",f.arrivaldatentime);
+
+    printf("Number of first-class seats still available: ");
+    scanf("%d%*c",&f.firstavailable);
+
+    printf("Number of first-class seats sold: ");
+    scanf("%d%*c",&f.firstsold);
+
+    printf("Number of coach seats still available: ");
+    scanf("%d%*c",&f.coachavailable);
+
+    printf("Number of coach seats sold: ");
+    scanf("%d%*c",&f.coachsold);
+
+    printf("\nFlight record created successfully.\n");
+
+    return f;
+
+}
+
+// next function is to delete a flight, for loop is to make sure that 
+//flight being deleted is actually existent so its got to be bigger than 1
+//if loop breaks once flight number is equal to 0
+int delete(struct Flight flight[],int size){
+
+    char num[20];
+
+    int i;
+
+    printf("Enter the flight number to be deleted: ");
+    scanf("%[^\n]%*c",num);
+
+    for (i = 0; i < size; i++)
+
+    if (strcmp(flight[i].number,num) == 0)
+
+    break;
+
+    if (i == size)
+
+    return 0;
+
+    for ( ; i < size; i++)
+
+    flight[i] = flight[i + 1];
+
+    size--;
+
+    return 1;
+
+}
+
+// next function is to update a flight, and once again for loop is to make sure that 
+//flight being updates this time is actually existent so its got to be bigger than 1
+//if loop breaks once flight number is equal to 0
+int update(struct Flight flight[],int size){
+
+    char num[20];
+    char choice;
+    int i;
+
+    printf("Enter the flight number to be updated: ");
+    scanf("%[^\n]%*c",num);
+
+    for (i = 0; i < size; i++)
+
+    if (strcmp(flight[i].number,num) == 0)
+
+    break;
+
+    if (i == size)
+
+    return 0;
+
+//the following sequence of print and scan functions will help user make inputs
+//that can or can not change the flight number, city of departure, destination,
+//date and time of both arrival and departure, new seats, so on and so forth.
+    printf("Would you like to update the flight number? (y for yes, n for no)");
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new flight number: ");
+    scanf("%[^\n]%*c",flight[i].number);
+    }
+
+    printf("Would you like to update the city of departure. (y for yes, n for no)");
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new city of departure: ");
+    scanf("%[^\n]%*c",flight[i].departure);
+
+    }
+
+    printf("Would you like to update the destination? (y for yes, n for no)");
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new destination: ");
+    scanf("%[^\n]%*c",flight[i].destination);
+
+    }
+
+    printf("Would you like to update the date and time of departure? (y for yes, n for no)");
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new date and time of departure: ");
+    scanf("%[^\n]%*c",flight[i].departuredatentime);
+
+    }
+
+    printf("Would you like to update the Date and time of arrival? (y for yes, n for no)");
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new date and time of arrival: ");
+    scanf("%[^\n]%*c",flight[i].arrivaldatentime);
+
+    }
+
+    printf("Would you like to update the first-class seats still available? (y for yes, n for no)");
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new first-class seats still available: ");
+    scanf("%d%*c",&flight[i].firstavailable);
+
+    }
+
+    printf("Would you like to update the first-class seats sold? (y for yes, n for no)");
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new first-class seats sold: ");
+    scanf("%d%*c",&flight[i].firstsold);
+
+    }
+
+    printf("Would you like to update the coach seats still available? (y for yes, n for no)");  
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new first-class seats still available: ");
+    scanf("%d%*c",&flight[i].coachavailable);
+
+    }
+
+    printf("Would you like to update the coach seats sold? (y for yes, n for no)");
+    scanf("%c%*c",&choice);
+
+    if(choice == 'y'){
+
+    printf("\nEnter new first-class seats sold: ");
+
+    scanf("%d%*c",&flight[i].coachsold);
+
+    }
+
+    return 1;
+
+}
+
+// next function is to reserve a flight, for loop is now also counting amount 
+//of reservations being made. 
+//if loop breaks once flight number is equal to 0
+//program prompts user to reserve a first class or coach seat, returns value that 
+//shows if there is any seat available or not and counts if any new reservation exists
+int reserve(struct Flight flight[],int size){
+
+    char num[20];
+    int ch, i;
+
+    printf("Enter the flight number you would like to book a seat: ");
+    scanf("%[^\n]%*c",num);
+
+    for (i = 0; i < size; i++)
+
+    if (strcmp(flight[i].number,num) == 0)
+
+    break;
+
+    if (i == size)
+
+    return 0;
+
+    while (1){
+
+    printf("Would you like to book first class/coach seat.\nEnter 1 - first class\nEnter 2 - coach seat");
+    scanf("%d%*c",&ch);
+
+    if(ch == 1){
+
+    if(flight[i].firstavailable <= 0){
+
+    printf("No first class seats available");
+
+    return 0;
+
+    }else{
+
+    flight[i].firstavailable = flight[i].firstavailable - 1;
+
+    flight[i].firstsold = flight[i].firstsold + 1;
+
+    return 1;
+
+    }
+
+    }
+
+    else if(ch ==2){
+
+    if(flight[i].coachavailable <= 0){
+
+    printf("No coach seats available");
+
+    return 0;
+
+    }else{
+
+    flight[i].coachavailable = flight[i].coachavailable - 1;
+
+    flight[i].coachsold = flight[i].coachsold + 1;
+
+    return 1;
+
+    }
+
+    } else{
+
+    printf("Invalid choice. Please re-enter");
+
+    }
+    }
+   
+
+}
+
+// next function is to cancel a flight, for loop is again counting and 
+//keeping track of flights to be cancelled.
+//program prompts user to cancel a first class or coach seat, returns value that 
+//shows if there is any seat available to be cancelled or not and counts if any changes were made
+int cancel(struct Flight flight[],int size){
+
+    char num[20];
+
+    int ch, i;
+
+    printf("Enter the flight number for cancelling reservation: ");
+    scanf("%[^\n]%*c",num);
+
+    for (i = 0; i < size; i++)
+
+    if (strcmp(flight[i].number,num) == 0)
+
+    break;
+
+    if (i == size)
+
+    return 0;
+
+    while (1){
+
+    printf("Would you like to cancel first class/coach seat.\nEnter 1 - first class\nEnter 2 - coach seat");
+    scanf("%d%*c",&ch);
+
+    if(ch == 1){
+
+    if(flight[i].firstsold <= 0){
+
+    printf("No first class seats reserved ");
+
+    return 0;
+
+    }else{
+
+    flight[i].firstavailable = flight[i].firstavailable + 1;
+
+    flight[i].firstsold = flight[i].firstsold - 1;
+
+    return 1;
+
+    }
+
+    }
+
+    else if(ch ==2){
+
+    if(flight[i].coachsold <= 0){
+
+    printf("No coach seats reserved ");
+
+    return 0;
+
+    }else{
+
+    flight[i].coachavailable = flight[i].coachavailable + 1;
+
+    flight[i].coachsold = flight[i].coachsold - 1;
+
+    return 1;
+    }
+
+    } else{
+
+    printf("Invalid choice. Please re-enter");
+
+    }
+
+    }
+
+   
+
+}
+
+//main function that will finally use fopen to open file for the flight changes
+//new reservations made or cancelled and that is flight.txt document 
+int main() {
+
+    struct Flight flight[100];
+
+    FILE *infile;
+
+    FILE *outfile;
+
+    int index = 0;
+
+    int choice,result;
+
+    int i =0;
+
+   infile = fopen("flight.txt", "r");
+
+  
+
+    if (infile != NULL)
+
+    {
+
+    while(fread(&flight[index], sizeof(struct Flight), 1, infile))
+
+    index++;
+
+    fclose (infile);
+
+    }
+    
+//menu to give the user its options and then switch function with 
+//its respective cases according to the menu displayed
+do {
+
+    printf("Airline reservation system.\n");
+    printf("\n 1. Create flight record");
+    printf("\n 2. Delete flight record");
+    printf("\n 3. Update flight record");
+    printf("\n 4. Make reservation");
+    printf("\n 5. Cancel reservation");
+    printf("\n 6. Exit");
+    printf("\n Enter your choice: ");
+    scanf("%d%*c", &choice);
+
+    switch (choice) {
+
+    case 1: flight[index] = create();
+
+    index++;
+
+    break;
+
+    case 2: result = delete(flight,index);
+
+    if(result == 0)
+
+    printf("\nThe flight record to be deleted not found.\n");
+
+    else{
+
+    printf("\nFlight record deleted successfully.\n");
+
+    index = index - 1;
+
+    }
+
+    break;
+
+    case 3: result = update(flight, index);
+
+    if(result == 0)
+
+    printf("\nThe flight record to be updated not found.\n");
+
+    else{
+
+    printf("\nFlight record updated successfully.\n");
+
+    }
+
+    break;
+
+    case 4: result = reserve(flight,index);
+
+    if(result == 0)
+
+    printf("\nFlight seat reservation failed.\n"); 
+
+    else{
+
+    printf("\nFlight seat reservation successfull.\n");
+
+    }
+
+    break;
+
+    case 5: result = cancel(flight,index);
+
+    if(result == 0)
+
+    printf("\nFlight seat cancellation failed.\n");
+
+    else{
+
+    printf("\nFlight seat reservation cancelled successfull.\n");
+
+    }
+
+    break;
+
+    case 6:
+
+    break;
+
+    default:
+
+    printf("\nInvalid choice");
+
+    }
+
+} while (choice != 6);
+
+
+outfile = fopen ("flight.txt", "w");
+
+    if (outfile != NULL)
+
+    {
+
+    i = 0;
+
+    while(i < index){
+
+    fwrite (&flight[i], sizeof(struct Flight), 1, outfile);
+
+    i = i+ 1;
+
+    }
+
+    fclose(outfile);
+
+    }
+
+return 0;
+
+}
