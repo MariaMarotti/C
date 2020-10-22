@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <time.h>
+
+// first structure is for a birth date input in the format day month and year
+typedef struct {
+    int day, month, year;
+} DateofBirth;
+
+// second structure gets first and last name as pointers and creates floats
+//for the height and weight, also creating a health profile for the user
+typedef struct {
+    char *first_name, *last_name, gender;
+    DateofBirth birth_date;
+    float height;
+    float weight;
+} HealthProfile;
+
+// declaring floats and integers to be used in the next main function
+void get_input(HealthProfile* health_profile);
+float calculate_body_mass_index(float height, float weight);
+int calculate_age(DateofBirth birth_date);
+
+
+int main() {
+    printf("  Health Record Computerizer  \n");
+    HealthProfile health_profile;
+    get_input(&health_profile);
+
+    float bmi = calculate_body_mass_index(health_profile.height, health_profile.weight);
+    int age = calculate_age(health_profile.birth_date);
+
+    printf("\n\nAge: %d\nBMI: %0.2f", age, bmi);
+
+    printf("\nBMI Chart:\n"
+           "\tUnderweight: less than 18.5\n"
+           "\tNormal:      between 18.5 and 24.9\n"
+           "\tOverweight:  between 25 and 29.9\n"
+           "\tObese:       30 or greater\n");
+
+    return 0;
+}
+
+//the following function is used receive the inputs for each information 
+//and the get function is a pointer to the profile structure
+
+void get_input(HealthProfile* health_profile) {
+    char name_temp[25];
+    char gender;
+    int date_tmp;
+    float height_weight_tmp;
+
+    printf("Enter first name: ");
+    if(scanf(" %s", name_temp))
+        health_profile->first_name = name_temp;
+
+    printf("Enter last name: ");
+    if(scanf(" %s", name_temp))
+        health_profile->last_name = name_temp;
+
+    printf("Enter gender (F/M): ");
+    if(scanf(" %c", &gender)) {
+        if(tolower(gender) == 'm' || tolower(gender) == 'f')
+            health_profile->gender = tolower(gender);
+        else
+            health_profile->gender = 'n';
+    }
+
+    printf("Birth month (1 to 12): ");
+    if(scanf(" %d", &date_tmp))
+        health_profile->birth_date.month = date_tmp;
+
+    printf("Birth day (1 to 31): ");
+    if(scanf(" %d", &date_tmp))
+        health_profile->birth_date.day = date_tmp;
+
+    printf("Birth year: ");
+    if(scanf(" %d", &date_tmp))
+        health_profile->birth_date.year = date_tmp;
+
+    printf("Height in cm: ");
+    if(scanf(" %f", &height_weight_tmp))
+        health_profile->height = height_weight_tmp;
+
+    printf("Weight in kg: ");
+    if(scanf(" %f", &height_weight_tmp))
+        health_profile->weight = height_weight_tmp;
+}
+
+//floats height and weight are used to calculate BMI of user
+
+float calculate_body_mass_index(float height, float weight) {
+    return  (weight / ((height / 100) * (height / 100)));
+}
+
+//the following function is used to calculate the age of the user
+//provided the day, month and year of birth that comes from the 
+//birth date struc previously declared
+
+int calculate_age(DateofBirth birth_date) {
+    int year, month, day;
+    time_t time_now;
+    time(&time_now);
+    struct tm *time = localtime(&time_now);
+
+    year = time->tm_year + 1900;
+    month = time->tm_mon + 1;
+    day = time->tm_mday;
+
+    if(birth_date.month > month || (birth_date.month == month && birth_date.day > day))
+        year--;
+
+    return year - birth_date.year;
+}
