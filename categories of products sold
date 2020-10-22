@@ -1,0 +1,181 @@
+#include<stdio.h>
+
+//A structure "struct" is defined since we are using data of different types, 
+//such as intergers and characters.
+
+struct products
+
+{
+char items[20];
+int price;
+char category, meat,dop[8],ep[8], vegetables, dairy[8];
+char expiration[7], aisleAorB;
+int cannedaisle;
+char nonfood, nonfoodaisleAorB;
+int nonfoodaisle;
+};
+
+//void function used so that return value is absent.
+void printer(struct products tmp[],int n)
+{
+
+int i;
+
+//a for loop is used so as long as integer i is bigger than
+//integer n which is the amount of items then the program will ask for
+//the name, price and category of each item until it reaches n,
+//meaning we've named and categorized every item.
+
+for(i=0;i<n;i++)
+{
+printf("\nItem name: %s",tmp[i].items);
+printf("\nPrice in cents $%d",tmp[i].price);
+printf("\nSelected category: ");
+
+//switch statement is used to switch char category and so
+//the user is allowed to select a category for the product.
+switch(tmp[i].category)
+{
+case 'M': printf("Meat");
+printf("\nMeat type: ");
+
+//a switch within a switch but for the meat "section" only
+switch(tmp[i].meat)
+{
+case 'R': printf("Red meat");
+break;
+
+case 'P': printf("Poultry");
+break;
+
+case 'F': printf("Fish");
+break;
+
+//the following print functions are for when user
+//selects Meat category only
+}
+printf("\nPackaging date: %s",tmp[i].dop);
+printf("\nExpiration date: %s",tmp[i].ep);
+break;
+
+//another switch within the main switch loop
+//similar to the Meat switch, this one is for 
+//vegetable types.
+case 'P': printf("Produce");
+printf("\nVegetable type: ");
+
+switch(tmp[i].vegetables)
+{
+case 'F' : printf("Fruit");
+break;
+case 'V' : printf("Vegetable");
+break;
+
+}
+
+//following are dairy, canned goods and nonfood cases 
+//and it's respective print statements 
+break;
+
+case 'D' : printf("Dairy product");
+printf("\nExpiration date: %s",tmp[i].dairy);
+break;
+
+case 'C' : printf("Canned goods");
+printf("\nExpiration date: %s",tmp[i].expiration);
+printf("\nAisle number: %d",tmp[i].cannedaisle);
+printf("\nAisle area A or B: %c",tmp[i].aisleAorB);
+break;
+
+case 'N' : printf("Non-food");
+printf("\nNon-food type: ");
+
+switch(tmp[i].nonfood)
+
+{
+case 'C': printf("Cleaning Products");
+break;
+
+case 'O': printf("Others");
+break;
+
+}
+
+printf("\nAisle number: %d",tmp[i].nonfoodaisle);
+printf("\nAisle area A or B: %c",tmp[i].nonfoodaisleAorB);
+break;
+
+}
+printf("\n");
+}
+
+//main function starts and integers j and n are used for amount of items 
+}
+void main()
+{
+int j,n;
+printf("Enter amount of items to be added: ");
+scanf("%d",&n);
+
+//struct is used since item and category is a character, and price an integer.
+struct products i[n];
+
+//on the for loop this time j is reaching i values. so if user selects i 
+//to be equal to 10, then for loop containing j will keep asking for a 
+//name, price and category until its reached the value of 10.
+for(j=0;j<n;j++)
+{
+printf("\nName the item: ");
+scanf("%s",(i[j].items));
+printf("\nEnter price in cents: ");
+scanf("%d",&(i[j].price));
+printf("\nSelect category (M for Meat, P for Vegetables, D for Dairy, C for Canned Goods, and N for Non-Food): ");
+scanf(" %c",&(i[j].category));
+}
+
+//for loop is used once again to keep going until amount of items has been 
+//categorized and given a price
+for(j=0;j<n;j++)
+{
+//switch statement for the categories. "represented" by integer j.
+switch(i[j].category)
+{
+case 'M' : printf("\nEnter meat type (R for Red Meat, P for Poultry, F for Fish): ");
+scanf(" %c",&i[j].meat);
+printf("\nEnter packaging date (month/year): ");
+scanf(" %s",i[j].dop);
+printf("\nEnter expiration date (month/year): ");
+scanf(" %s",i[j].ep);
+break;
+
+case 'P' : printf("\nEnter vegetable type (F for Fruit, V for Vegetables): ");
+scanf(" %c",&i[j].vegetables);
+break;
+
+//again, each case represents a category and its respective printf statements
+//for necessary extra information such as aisle number or expiration dates.
+
+case 'D' : printf("\nEnter expiration date for dairy item (month/year) : ");
+scanf(" %s",i[j].dairy);
+break;
+
+case 'C' : printf("\nEnter expiration date (month/year) : ");
+scanf(" %s",i[j].expiration);
+printf("\nEnter aisle number: ");
+scanf(" %d",&i[j].cannedaisle);
+printf("\nAisle area A or B: ");
+scanf(" %c",&i[j].aisleAorB);
+break;
+
+case 'N' : printf("\nEnter non-food category (C for Cleaning Products, O for Others): ");
+scanf(" %c",&i[j].nonfood);
+printf("\nNon-food aisle: ");
+scanf(" %d",&i[j].nonfoodaisle);
+printf("\nAisle area A or B: ");
+scanf(" %c",&i[j].nonfoodaisleAorB);
+break;
+}
+}
+//prints a copy of every input information
+printer(i,n);
+}
